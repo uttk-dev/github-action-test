@@ -1,0 +1,28 @@
+name: Pull Reuqest Policy Comment
+
+on:
+  pull_request:
+    branches:
+      - main
+    types:
+      - opened
+
+jobs:
+  policy-comment:
+    name: Pull Reuqest Policy Comment
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v5
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: [
+                `- [ ] テスト`,
+                `- [ ] テスト`,
+                `- [ ] テスト`,
+              ].join("\n")
+            })
